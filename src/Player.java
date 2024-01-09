@@ -3,28 +3,46 @@ public class Player {
     private int chipsWagered;
     private int numberOfChips;
     private int playerScore;
-    private Die die;
+    private Die die1;
+    private int playerDice1;
+    private int playerDice2;
+    private int playerDice3;
 
     public Player(String name, int playerScore, int numberOfChips){
         this.name = name;
         this.playerScore = playerScore;
         this.numberOfChips = numberOfChips;
         chipsWagered = 0;
-        die = new Die();
     }
 
     public int getChipsWagered(){
         return chipsWagered;
     }
+    public int getNumberOfChips(){
+        return numberOfChips;
+    }
+    public int getPlayerDice1(){
+        return playerDice1;
+    }
+    public int getPlayerDice2(){
+        return playerDice2;
+    }
+    public int getPlayerDice3(){
+        return playerDice3;
+    }
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
     public void setScore(){
-        playerScore = die.getScore() ;
+        playerScore = die1.getScore() ;
     }
 
     public void rollDiesPlayer(){
-        die.dieSequence();
+        die1 = new Die();
+        die1.dieSequence();
+        playerDice1 = die1.getDice1();
+        playerDice2 = die1.getDice2();
+        playerDice3 = die1.getDice3();
     }
 
     public boolean checkIfInGame(){

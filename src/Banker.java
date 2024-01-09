@@ -6,17 +6,12 @@ public class Banker {
 
     public Banker(int bankerScore, int numOfChips){
         this.bankerScore = bankerScore;
+        this.numOfChips = numOfChips;
         this.die = new Die();
     }
 
-    public int getBankerScore(){
-        return bankerScore;
-    }
-    public void setScore(){
-        bankerScore = die.getScore() ;
-    }
-    public void rollDiesBanker(){
-        die.dieSequence();
+    public int getNumOfChips(){
+        return numOfChips;
     }
     public boolean checkIfInGame(){
         return numOfChips >= 0;

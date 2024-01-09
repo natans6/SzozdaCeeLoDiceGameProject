@@ -2,17 +2,24 @@ public class Die {
     private int dice1;
     private int dice2;
     private int dice3;
-    private int score = 0;
+    private int score;
     public static int win = 5;
     private boolean repeat = true;
     public Die(){
-
     }
 
-    public int rollDie(){
-        return (int) (Math.random() * 6) + 1;
+    public int getScore(){
+        return score;
     }
-
+    public int getDice1(){
+        return dice1;
+    }
+    public int getDice2(){
+        return dice2;
+    }
+    public int getDice3(){
+        return dice3;
+    }
     public void dieSequence(){
         int[] tempRollHolder = new int[3];
         while(repeat){
@@ -40,22 +47,8 @@ public class Die {
                 repeat = false;
             }
         }
-
     }
-
-    public int getScore(){
-        return score;
-    }
-    public int getWin(){
-        return win;
-    }
-    public int getDice1(){
-        return dice1;
-    }
-    public int getDice2(){
-        return dice2;
-    }
-    public int getDice3(){
-        return dice3;
+    private int rollDie(){
+        return (int) (Math.random() * 6) + 1;
     }
 }
