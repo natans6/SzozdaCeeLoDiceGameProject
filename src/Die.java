@@ -20,6 +20,9 @@ public class Die {
     public int getDice3(){
         return dice3;
     }
+    public int getWin(){
+        return win;
+    }
     public void dieSequence(){
         int[] tempRollHolder = new int[3];
         while(repeat){

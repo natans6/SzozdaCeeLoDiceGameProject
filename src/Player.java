@@ -7,6 +7,7 @@ public class Player {
     private int playerDice1;
     private int playerDice2;
     private int playerDice3;
+    private int win;
 
     public Player(String name, int playerScore, int numberOfChips){
         this.name = name;
@@ -30,6 +31,12 @@ public class Player {
     public int getPlayerDice3(){
         return playerDice3;
     }
+    public int getPlayerWin(){
+        return win;
+    }
+    public int getPlayerScore(){
+        return die1.getScore();
+    }
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
@@ -43,6 +50,7 @@ public class Player {
         playerDice1 = die1.getDice1();
         playerDice2 = die1.getDice2();
         playerDice3 = die1.getDice3();
+        win = die1.getWin();
     }
 
     public boolean checkIfInGame(){
