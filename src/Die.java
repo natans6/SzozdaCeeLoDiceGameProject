@@ -35,6 +35,10 @@ public class Die {
             if (tempRollHolder[0] == 4 && tempRollHolder[1] == 5 && tempRollHolder[2] == 6 || tempRollHolder[0] == 4 && tempRollHolder[1] == 6 && tempRollHolder[2] == 5 || tempRollHolder[0] == 5 && tempRollHolder[1] == 4 && tempRollHolder[2] == 6 || tempRollHolder[0] == 5 && tempRollHolder[1] == 6 && tempRollHolder[2] == 4 || tempRollHolder[0] == 6 && tempRollHolder[1] == 4 && tempRollHolder[2] == 5 || tempRollHolder[0] == 6 && tempRollHolder[1] == 5 && tempRollHolder[2] == 4){
                 win = 0;
                 repeat = false;
+            }
+            else if ((tempRollHolder[0] == tempRollHolder[1]) && (tempRollHolder[0] == tempRollHolder[2])){
+                win = 0;
+                repeat = false;
             } else if (tempRollHolder[0] == 1 && tempRollHolder[1] == 2 && tempRollHolder[2] == 3 || tempRollHolder[0] == 1 && tempRollHolder[1] == 3 && tempRollHolder[2] == 2 || tempRollHolder[0] == 2 && tempRollHolder[1] == 1 && tempRollHolder[2] == 3 || tempRollHolder[0] == 2 && tempRollHolder[1] == 3 && tempRollHolder[2] == 1 || tempRollHolder[0] == 3 && tempRollHolder[1] == 1 && tempRollHolder[2] == 2 || tempRollHolder[0] == 3 && tempRollHolder[1] == 2 && tempRollHolder[2] == 1){
                 win = 1;
                 repeat = false;

@@ -45,45 +45,15 @@ public class Ceelo {
             player1.rollDiesPlayer();
             System.out.println("<----------------------------->");
             System.out.println("Player 1 has rolled three dice on the table, eager for the outcome. The outcomes are " + player1.getPlayerDice1() + ", " + player1.getPlayerDice2() + ", and " + player1.getPlayerDice3() + ".");
-            if (player1.getPlayerWin() == 0){
-                playerWin(wage1, wage2, wage3);
-                printInfo();
-            } else if (player1.getPlayerWin() == 1){
-                playerLose(wage1, player1);
-                printInfo();
-            } else if (player1.getPlayerWin() == 2){
-                int player1Score = player1.getPlayerScore();
-                System.out.print("As a result of a double, the first player's score is: " + player1Score);
-                // compare score with JUST banker.
-            }
+            player1Conditions(wage1, wage2, wage3);
             System.out.println("<----------------------------->");
             player2.rollDiesPlayer();
             System.out.println("Player 2 has rolled three dice on the table, eager for the outcome. The outcomes are " + player2.getPlayerDice1() + ", " + player2.getPlayerDice2() + ", and " + player2.getPlayerDice3() + ".");
-            if (player2.getPlayerWin() == 0){
-                playerWin(wage1, wage2, wage3);
-                printInfo();
-            } else if (player2.getPlayerWin() == 1){
-                playerLose(wage2, player2);
-                printInfo();
-            } else if (player2.getPlayerWin() == 2){
-                int player2Score = player2.getPlayerScore();
-                System.out.println("As a result of a double, the first player's score is: " + player2Score);
-                // compare score with JUST banker.
-            }
+            player2Conditions(wage1, wage2, wage3);
             System.out.println("<----------------------------->");
             player3.rollDiesPlayer();
             System.out.println("Player 3 has rolled three dice on the table, eager for the outcome. The outcomes are " + player3.getPlayerDice1() + ", " + player3.getPlayerDice2() + ", and " + player3.getPlayerDice3() + ".");
-            if (player3.getPlayerWin() == 0){
-                playerWin(wage1, wage2, wage3);
-                printInfo();
-            } else if (player3.getPlayerWin() == 1){
-                playerLose(wage3, player3);
-                printInfo();
-            } else if (player3.getPlayerWin() == 2){
-                int player3Score = player3.getPlayerScore();
-                System.out.println("As a result of a double, the first player's score is: " + player3Score);
-                // compare score with JUST banker.
-            }
+            player3Conditions(wage1, wage2, wage2);
             System.out.println("<----------------------------->");
         }
     }
@@ -117,6 +87,45 @@ public class Ceelo {
     public void playerLose(int firstWage, Player player){
         player.decreaseNumOfChips(firstWage);
         banker.incrementNumOfChips(firstWage);
+    }
+    public void player1Conditions(int wage1, int wage2, int wage3){
+        if (player1.getPlayerWin() == 0){
+            playerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player1.getPlayerWin() == 1){
+            playerLose(wage1, player1);
+            printInfo();
+        } else if (player1.getPlayerWin() == 2){
+            int player1Score = player1.getPlayerScore();
+            System.out.println("As a result of a double, the first player's score is: " + player1Score);
+            // compare score with JUST banker.
+        }
+    }
+    public void player2Conditions(int wage1, int wage2, int wage3){
+        if (player2.getPlayerWin() == 0){
+            playerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player2.getPlayerWin() == 1){
+            playerLose(wage2, player2);
+            printInfo();
+        } else if (player2.getPlayerWin() == 2){
+            int player2Score = player2.getPlayerScore();
+            System.out.println("As a result of a double, the first player's score is: " + player2Score);
+            // compare score with JUST banker.
+        }
+    }
+    public void player3Conditions(int wage1, int wage2, int wage3){
+        if (player3.getPlayerWin() == 0){
+            playerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player3.getPlayerWin() == 1){
+            playerLose(wage3, player3);
+            printInfo();
+        } else if (player3.getPlayerWin() == 2){
+            int player3Score = player3.getPlayerScore();
+            System.out.println("As a result of a double, the first player's score is: " + player3Score);
+            // compare score with JUST banker.
+        }
     }
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
