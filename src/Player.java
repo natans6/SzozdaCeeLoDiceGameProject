@@ -40,8 +40,8 @@ public class Player {
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
-    public void setScore(){
-        playerScore = die1.getScore() ;
+    public String getName(){
+        return name;
     }
 
     public void rollDiesPlayer(){
