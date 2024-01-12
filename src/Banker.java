@@ -2,7 +2,6 @@ public class Banker {
     private int numOfChips;
     private int bankerScore;
     private Die die;
-    private Player player;
 
     public Banker(int bankerScore, int numOfChips){
         this.bankerScore = bankerScore;
@@ -14,7 +13,7 @@ public class Banker {
         return numOfChips;
     }
     public boolean checkIfInGame(){
-        return numOfChips >= 0;
+        return numOfChips > 0;
     }
     public void incrementNumOfChips(int numOfChipsWon){
         numOfChips += numOfChipsWon;

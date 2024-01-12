@@ -37,13 +37,12 @@ public class Player {
     public int getPlayerScore(){
         return die1.getScore();
     }
-    public void setChipsWagered(int newChips){
-        chipsWagered = newChips;
-    }
     public String getName(){
         return name;
     }
-
+    public void setChipsWagered(int newChips){
+        chipsWagered = newChips;
+    }
     public void rollDiesPlayer(){
         die1 = new Die();
         die1.dieSequence();
@@ -52,9 +51,8 @@ public class Player {
         playerDice3 = die1.getDice3();
         win = die1.getWin();
     }
-
     public boolean checkIfInGame(){
-        return numberOfChips >= 0;
+        return numberOfChips > 0;
     }
     public void incrementNumOfChips(int newChipsWagered){
         numberOfChips += newChipsWagered;

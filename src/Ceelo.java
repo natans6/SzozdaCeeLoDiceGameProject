@@ -8,6 +8,12 @@ public class Ceelo {
     private Banker banker;
     private Die die;
     Scanner scan = new Scanner(System.in);
+    private int wage1;
+    private int wage2;
+    private int wage3;
+    private boolean pl1InGame = true;
+    private boolean pl2InGame = true;
+    private boolean pl3InGame = true;
 
     public Ceelo(){
         die = new Die();
@@ -15,7 +21,7 @@ public class Ceelo {
 
     public void play(){
         intro();
-        roundOne();
+        rounds();
     }
 
     public void intro(){
@@ -23,57 +29,160 @@ public class Ceelo {
         System.out.println("<---------------------------------------------------------------------->");
         askName();
     }
-    public void roundOne(){
-        player1.setChipsWagered(getWagers(player1));
-        int wage1 = player1.getChipsWagered();
-        player2.setChipsWagered(getWagers(player2));
-        int wage2 = player2.getChipsWagered();
-        player3.setChipsWagered(getWagers(player3));
-        int wage3 = player3.getChipsWagered();
-        die.dieSequence();
-        System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + die.getDice1() + ", " + die.getDice2() + ", and " + die.getDice3() + ".");
-        System.out.println("<---------------------------------------------------------------------->");
-        if (Die.win == 0){
-            bankerWin(wage1, wage2, wage3);
+    public void rounds(){
+        int i = 1;
+        while (banker.checkIfInGame() || (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
+            if (player1.checkIfInGame()){
+                player1.setChipsWagered(getWagers(player1));
+                wage1 = player1.getChipsWagered();
+            } else {
+                pl1InGame = false;
+            }
+            if (player2.checkIfInGame()){
+                player2.setChipsWagered(getWagers(player2));
+                wage2 = player2.getChipsWagered();
+            } else {
+                pl2InGame = false;
+            }
+            if (player3.checkIfInGame()){
+                player3.setChipsWagered(getWagers(player3));
+                wage3 = player3.getChipsWagered();
+            } else {
+                pl3InGame = false;
+            }
+            die.dieSequence();
+            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + die.getDice1() + ", " + die.getDice2() + ", and " + die.getDice3() + ".");
+            System.out.println("<---------------------------------------------------------------------->");
+            if (Die.win == 0){
+                checkPlayersInGameBankerWin(wage1, wage2, wage3);
+            } else if (Die.win == 1){
+                checkPlayersInGamePlayerWin(wage1, wage2, wage3);
+            } else if (Die.win == 2){
+                int bankerScore = die.getScore();
+                System.out.println("As a result of a double, the banker's score is: " + bankerScore);
+                if (pl1InGame){
+                    player1.rollDiesPlayer();
+                    System.out.println("<----------------------------->");
+                    System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player1.getPlayerDice1() + ", " + player1.getPlayerDice2() + ", and " + player1.getPlayerDice3() + ".");
+                    player1Conditions(wage1, bankerScore);
+                    System.out.println("<----------------------------->");
+                }
+                if (pl2InGame){
+                    player2.rollDiesPlayer();
+                    System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player2.getPlayerDice1() + ", " + player2.getPlayerDice2() + ", and " + player2.getPlayerDice3() + ".");
+                    player2Conditions(wage2, bankerScore);
+                    System.out.println("<----------------------------->");
+                }
+                if (pl3InGame){
+                    player3.rollDiesPlayer();
+                    System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player3.getPlayerDice1() + ", " + player3.getPlayerDice2() + ", and " + player3.getPlayerDice3() + ".");
+                    player3Conditions(wage3, bankerScore);
+                    System.out.println("<----------------------------->");
+                }
+            }
+            System.out.println();
+            System.out.println("These are how many chips each one of y'all have...");
             printInfo();
-        } else if (Die.win == 1){
-            playerWin(wage1, wage2, wage3);
-            printInfo();
-        } else if (Die.win == 2){
-            int bankerScore = die.getScore();
-            System.out.println("As a result of a double, the banker's score is: " + bankerScore);
-            player1.rollDiesPlayer();
-            System.out.println("<----------------------------->");
-            System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player1.getPlayerDice1() + ", " + player1.getPlayerDice2() + ", and " + player1.getPlayerDice3() + ".");
-            player1Conditions(wage1, bankerScore);
-            System.out.println("<----------------------------->");
-            player2.rollDiesPlayer();
-            System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player2.getPlayerDice1() + ", " + player2.getPlayerDice2() + ", and " + player2.getPlayerDice3() + ".");
-            player2Conditions(wage2, bankerScore);
-            System.out.println("<----------------------------->");
-            player3.rollDiesPlayer();
-            System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player3.getPlayerDice1() + ", " + player3.getPlayerDice2() + ", and " + player3.getPlayerDice3() + ".");
-            player3Conditions(wage3, bankerScore);
-            System.out.println("<----------------------------->");
+            System.out.println();
+
+            printEndOfRound(i);
+            i++;
+            System.out.println();
+            if (!banker.checkIfInGame()){
+                System.out.println("Since the banker has no more chips remaining, the players have broken the bank and as a result have won the game. And now lets see who had the most amount of chips!");
+                int amountChips1 = player1.getNumberOfChips();
+                int amountChips2 = player2.getNumberOfChips();
+                int amountChips3 = player3.getNumberOfChips();
+                if ((amountChips1 > amountChips2) && (amountChips1 > amountChips3)){
+                    System.out.println(player1.getName() + " has won the game with " + player1.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                } else if ((amountChips2 > amountChips1) && (amountChips2 > amountChips3)){
+                    System.out.println(player2.getName() + " has won the game with " + player2.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                } else if ((amountChips3 > amountChips1) && (amountChips3 > amountChips2)){
+                    System.out.println(player3.getName() + " has won the game with " + player3.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                } else{
+                    checkTie();
+                }
+                break;
+            } else if (!pl1InGame && !pl2InGame && !pl3InGame){
+                System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
+            }
         }
-        System.out.println();
-        System.out.println("These are how many chips each one of yall have...");
-        printInfo();
-        System.out.println();
-        System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
-        System.out.println("AND THAT IS THE END OF THE FIRST ROUND. BE READY FOR THE NEXT ONE...");
-        System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
+
     }
     public int getWagers(Player player){
         System.out.print(player.getName() + ", how many chips would you like to wager for this round? ");
         int num = scan.nextInt();
         return num;
     }
+    public void checkPlayersInGameBankerWin(int wage1, int wage2, int wage3){
+        if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame() && player2.checkIfInGame()){
+            playerWin(wage1, wage2, 0);
+            printInfo();
+        } else if (player1.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(wage1, 0, wage3);
+            printInfo();
+        } else if (player2.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(0, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame()){
+            playerWin(wage1, 0, 0);
+            printInfo();
+        } else if (player2.checkIfInGame()){
+            playerWin(0, wage2, 0);
+            printInfo();
+        } else if (player3.checkIfInGame()){
+            playerWin(0, 0, wage3);
+            printInfo();
+        }
+    }
+    public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
+        if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
+            bankerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame() && player2.checkIfInGame()){
+            bankerWin(wage1, wage2, 0);
+            printInfo();
+        } else if (player1.checkIfInGame() && player3.checkIfInGame()){
+            bankerWin(wage1, 0, wage3);
+            printInfo();
+        } else if (player2.checkIfInGame() && player3.checkIfInGame()){
+            bankerWin(0, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame()){
+            bankerWin(wage1, 0, 0);
+            printInfo();
+        } else if (player2.checkIfInGame()){
+            bankerWin(0, wage2, 0);
+            printInfo();
+        } else if (player3.checkIfInGame()){
+            bankerWin(0, 0, wage3);
+            printInfo();
+        }
+    }
+    public void checkTie(){
+        if (player1.getNumberOfChips() == player2.getNumberOfChips()){
+            System.out.println("There seems to be a tie between " + player1.getName() + " and " + player2.getName());
+        } else if (player1.getNumberOfChips() == player3.getNumberOfChips()){
+            System.out.println("There seems to be a tie between " + player1.getName() + " and " + player3.getName());
+        } else if (player2.getNumberOfChips() == player3.getNumberOfChips()){
+            System.out.println("There seems to be a tie between " + player2.getName() + " and " + player3.getName());
+        } else if (player1.getNumberOfChips() == player2.getNumberOfChips() && player1.getNumberOfChips() == player3.getNumberOfChips()){
+            System.out.println("There seems to be a three-way tie between " + player1.getName() + ", " + player2.getName() + ", and " + player3.getName());
+        }
+    }
     public void printInfo(){
         System.out.println("The banker has: " + banker.getNumOfChips() + " chips");
         System.out.println(player1.getName() + " has: " + player1.getNumberOfChips() + " chips");
         System.out.println(player2.getName() + " has: " + player2.getNumberOfChips() + " chips");
         System.out.println(player3.getName() + " has: " + player3.getNumberOfChips() + " chips");
+    }
+    public void printEndOfRound(int i){
+        System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
+        System.out.println("AND THAT IS THE END OF ROUND " + i + ". BE READY FOR THE NEXT ONE...");
+        System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
     }
     public void bankerWin(int firstWage, int secondWage, int thirdWage){
         banker.incrementNumOfChips(firstWage);
