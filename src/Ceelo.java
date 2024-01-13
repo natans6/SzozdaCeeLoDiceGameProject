@@ -26,12 +26,15 @@ public class Ceelo {
 
     public void intro(){
         System.out.println("Welcome to the game CEE-LOOO!!! \nYou have the chance to either win or lose money...\nPlease only play this game if you are sure.");
+        System.out.println("Each of the players start with 1000 chips each and as well as the banker.");
         System.out.println("<---------------------------------------------------------------------->");
         askName();
+        System.out.println("<---------------------------------------------------------------------->");
     }
     public void rounds(){
         int i = 1;
         while (banker.checkIfInGame() || (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
+            System.out.println("At this time, please input the amount of chips you would like to wager for the round...");
             if (player1.checkIfInGame()){
                 player1.setChipsWagered(getWagers(player1));
                 wage1 = player1.getChipsWagered();
