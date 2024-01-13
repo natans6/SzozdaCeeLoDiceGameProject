@@ -3,7 +3,7 @@ public class Die {
     private int dice2;
     private int dice3;
     private int score;
-    public static int win = 5;
+    private int win = 5;
     private boolean repeat = true;
     public Die(){
     }

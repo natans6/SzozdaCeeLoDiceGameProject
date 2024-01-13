@@ -2,16 +2,14 @@ public class Player {
     private String name;
     private int chipsWagered;
     private int numberOfChips;
-    private int playerScore;
     private Die die1;
     private int playerDice1;
     private int playerDice2;
     private int playerDice3;
     private int win;
 
-    public Player(String name, int playerScore, int numberOfChips){
+    public Player(String name, int numberOfChips){
         this.name = name;
-        this.playerScore = playerScore;
         this.numberOfChips = numberOfChips;
         chipsWagered = 0;
     }

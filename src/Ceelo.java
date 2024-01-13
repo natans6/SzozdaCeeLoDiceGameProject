@@ -50,15 +50,15 @@ public class Ceelo {
             } else {
                 pl3InGame = false;
             }
-            die.dieSequence();
-            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + die.getDice1() + ", " + die.getDice2() + ", and " + die.getDice3() + ".");
+            banker.rollDiesBanker();
+            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + banker.getBankerDice1() + ", " + banker.getBankerDice2() + ", and " + banker.getBankerDice3() + ".");
             System.out.println("<---------------------------------------------------------------------->");
-            if (Die.win == 0){
+            if (banker.getBankerWin() == 0){
                 checkPlayersInGameBankerWin(wage1, wage2, wage3);
-            } else if (Die.win == 1){
+            } else if (banker.getBankerWin() == 1){
                 checkPlayersInGamePlayerWin(wage1, wage2, wage3);
-            } else if (Die.win == 2){
-                int bankerScore = die.getScore();
+            } else if (banker.getBankerWin() == 2){
+                int bankerScore = banker.getBankerScore();
                 System.out.println("As a result of a double, the banker's score is: " + bankerScore);
                 if (pl1InGame){
                     player1.rollDiesPlayer();
@@ -105,6 +105,7 @@ public class Ceelo {
                 break;
             } else if (!pl1InGame && !pl2InGame && !pl3InGame){
                 System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
+                break;
             }
         }
 
@@ -115,30 +116,6 @@ public class Ceelo {
         return num;
     }
     public void checkPlayersInGameBankerWin(int wage1, int wage2, int wage3){
-        if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
-            playerWin(wage1, wage2, wage3);
-            printInfo();
-        } else if (player1.checkIfInGame() && player2.checkIfInGame()){
-            playerWin(wage1, wage2, 0);
-            printInfo();
-        } else if (player1.checkIfInGame() && player3.checkIfInGame()){
-            playerWin(wage1, 0, wage3);
-            printInfo();
-        } else if (player2.checkIfInGame() && player3.checkIfInGame()){
-            playerWin(0, wage2, wage3);
-            printInfo();
-        } else if (player1.checkIfInGame()){
-            playerWin(wage1, 0, 0);
-            printInfo();
-        } else if (player2.checkIfInGame()){
-            playerWin(0, wage2, 0);
-            printInfo();
-        } else if (player3.checkIfInGame()){
-            playerWin(0, 0, wage3);
-            printInfo();
-        }
-    }
-    public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             bankerWin(wage1, wage2, wage3);
             printInfo();
@@ -159,6 +136,30 @@ public class Ceelo {
             printInfo();
         } else if (player3.checkIfInGame()){
             bankerWin(0, 0, wage3);
+            printInfo();
+        }
+    }
+    public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
+        if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(wage1, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame() && player2.checkIfInGame()){
+            playerWin(wage1, wage2, 0);
+            printInfo();
+        } else if (player1.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(wage1, 0, wage3);
+            printInfo();
+        } else if (player2.checkIfInGame() && player3.checkIfInGame()){
+            playerWin(0, wage2, wage3);
+            printInfo();
+        } else if (player1.checkIfInGame()){
+            playerWin(wage1, 0, 0);
+            printInfo();
+        } else if (player2.checkIfInGame()){
+            playerWin(0, wage2, 0);
+            printInfo();
+        } else if (player3.checkIfInGame()){
+            playerWin(0, 0, wage3);
             printInfo();
         }
     }
@@ -272,14 +273,14 @@ public class Ceelo {
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
         String name = scan.nextLine();
-        player1 = new Player(name, 0, 1000);
+        player1 = new Player(name, 1000);
         System.out.print("Hello player 2! Please write your desired name: ");
         String name1 = scan.nextLine();
-        player2 = new Player(name1, 0, 1000);
+        player2 = new Player(name1, 1000);
         System.out.print("Hello player 3! Please write your desired name: ");
         String name2 = scan.nextLine();
-        player3 = new Player(name2, 0, 1000);
+        player3 = new Player(name2, 1000);
         //  make banker
-        banker = new Banker(0, 1000);
+        banker = new Banker(1000);
     }
 }
