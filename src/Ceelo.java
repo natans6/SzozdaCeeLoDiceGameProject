@@ -3,14 +3,15 @@ import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Ceelo {
+    Scanner scan = new Scanner(System.in);
     private Player player1;
     private Player player2;
     private Player player3;
     private Banker banker;
-    Scanner scan = new Scanner(System.in);
     private int wage1;
     private int wage2;
     private int wage3;
+    private static final int MAX_WAGER_LIMIT = 500;
     private boolean pl1InGame = true;
     private boolean pl2InGame = true;
     private boolean pl3InGame = true;
@@ -200,8 +201,23 @@ public class Ceelo {
     }
     public int getWagers(Player player){
         System.out.print(player.getName() + ", how many chips would you like to wager for this round? ");
-        int num = scan.nextInt();
-        return num;
+
+        int availableChips = player.getNumberOfChips();
+
+        // Set a limit for wager based on the player's current chip count
+        int maxWager = Math.min(availableChips, MAX_WAGER_LIMIT);  // MAX_WAGER_LIMIT is the maximum allowed wager
+
+        // Get player input for wager
+        System.out.print("Enter wager (up to " + maxWager + " chips): ");
+        int wager = scan.nextInt();
+
+        // Validate the wager to be within the allowed limit
+        while (wager < 10 || wager > maxWager) {
+            System.out.print("Invalid wager. Enter a wager between 10 and " + maxWager + ": ");
+            wager = scan.nextInt();
+        }
+
+        return wager;
     }
     public int getHighestChipCountEver() {
         return highestChipCountEver;
