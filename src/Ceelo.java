@@ -274,7 +274,8 @@ public class Ceelo {
         System.out.println(player1.getName() + " has: " + player1.getNumberOfChips() + " chips");
         System.out.println(player2.getName() + " has: " + player2.getNumberOfChips() + " chips");
         System.out.println(player3.getName() + " has: " + player3.getNumberOfChips() + " chips");
-        int currentHighest = Math.max(banker.getNumOfChips(), Math.max(player1.getNumberOfChips(), Math.max(player2.getNumberOfChips(), player3.getNumberOfChips())));
+        // Update highestChipCountEver for players only
+        int currentHighest = Math.max(player1.getNumberOfChips(), Math.max(player2.getNumberOfChips(), player3.getNumberOfChips()));
         highestChipCountEver = Math.max(highestChipCountEver, currentHighest);
     }
     public void printEndOfRound(int i){
