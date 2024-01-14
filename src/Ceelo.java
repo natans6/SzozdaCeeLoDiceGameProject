@@ -15,6 +15,7 @@ public class Ceelo {
     private boolean pl2InGame = true;
     private boolean pl3InGame = true;
     private boolean wantToPlay = true;
+    private int highestChipCountEver = 0;
 
     public Ceelo(){
 
@@ -22,7 +23,10 @@ public class Ceelo {
 
     public void play(){
         intro();
-        mainMenu();
+        while (wantToPlay){
+            mainMenu();
+            afterGameEnds();
+        }
     }
 
     public void intro(){
@@ -51,7 +55,9 @@ public class Ceelo {
             System.out.println("<---------------------------------------------------------------------->");
             rounds();
         } else if (answer.equals("V") || answer.equals("v")){
-            // implement code for finding the highest score
+            System.out.println("<---------------------------------------------------------------------->");
+            System.out.println("The high score so far is: " + getHighestChipCountEver() + " chips!");
+            System.out.println("<---------------------------------------------------------------------->");
         } else if (answer.equals("Q") || answer.equals("q")){
             System.out.println("Hope you all had fun playing...");
             System.exit(0);
@@ -197,6 +203,9 @@ public class Ceelo {
         int num = scan.nextInt();
         return num;
     }
+    public int getHighestChipCountEver() {
+        return highestChipCountEver;
+    }
     public void checkPlayersInGameBankerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             bankerWin(wage1, wage2, wage3);
@@ -265,6 +274,8 @@ public class Ceelo {
         System.out.println(player1.getName() + " has: " + player1.getNumberOfChips() + " chips");
         System.out.println(player2.getName() + " has: " + player2.getNumberOfChips() + " chips");
         System.out.println(player3.getName() + " has: " + player3.getNumberOfChips() + " chips");
+        int currentHighest = Math.max(banker.getNumOfChips(), Math.max(player1.getNumberOfChips(), Math.max(player2.getNumberOfChips(), player3.getNumberOfChips())));
+        highestChipCountEver = Math.max(highestChipCountEver, currentHighest);
     }
     public void printEndOfRound(int i){
         System.out.print(ConsoleUtility.GREEN);
@@ -369,6 +380,20 @@ public class Ceelo {
                 printInfo();
             }
         }
+    }
+    public void afterGameEnds(){
+        try{
+            System.out.println("Time to go back to the main menu!");
+            Thread.sleep(5000);
+            try{
+                ConsoleUtility.clearScreen();
+            } catch (Exception e){
+                System.out.println("error");
+            }
+        } catch (Exception e){
+            System.out.println("error");
+        }
+
     }
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
