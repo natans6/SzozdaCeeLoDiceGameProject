@@ -14,6 +14,7 @@ public class Ceelo {
     private boolean pl1InGame = true;
     private boolean pl2InGame = true;
     private boolean pl3InGame = true;
+    private boolean wantToPlay = true;
 
     public Ceelo(){
 
@@ -21,15 +22,40 @@ public class Ceelo {
 
     public void play(){
         intro();
-        rounds();
+        mainMenu();
     }
 
     public void intro(){
+        System.out.println("<---------------------------------------------------------------------->");
         System.out.println("Welcome to the game CEE-LOOO!!! \nYou have the chance to either win or lose money...\nPlease only play this game if you are sure.");
-        System.out.println("Each of the players start with 1000 chips each and as well as the banker.");
+    }
+    public void mainMenu(){
         System.out.println("<---------------------------------------------------------------------->");
-        askName();
-        System.out.println("<---------------------------------------------------------------------->");
+        System.out.println("Would you like to: ");
+        System.out.println("(S)tart a new game");
+        System.out.println("(V)iew High Score");
+        System.out.println("(Q)uit");
+        System.out.print("What's your decision: ");
+        String answer = scan.nextLine();
+        if (answer.equals("S") || answer.equals("s")){
+            System.out.println("<---------------------------------------------------------------------->");
+            System.out.println("Each player starts with 1000 chips each and as well as the banker.");
+            System.out.println("Each player and the one banker will roll 3 dices. The combinations will determine if you win or lose your round.");
+            System.out.println("Rolling a 4, 5, 6 combination or a triple matching combination results in the player or banker automatically winning ");
+            System.out.println("Rolling a 1, 2, 3 combination results in the player or banker automatically losing.");
+            System.out.println("If a player or banker rolls two of the same numbers with the last number being different, that third number relates to their 'score.' ");
+            System.out.println("This score then gets compared to the banker or vice a versa to determine who wins the round.");
+            System.out.println("GOOD LUCK!!!");
+            System.out.println("<---------------------------------------------------------------------->");
+            askName();
+            System.out.println("<---------------------------------------------------------------------->");
+            rounds();
+        } else if (answer.equals("V") || answer.equals("v")){
+            // implement code for finding the highest score
+        } else if (answer.equals("Q") || answer.equals("q")){
+            System.out.println("Hope you all had fun playing...");
+            System.exit(0);
+        }
     }
     public void rounds(){
         int i = 1;
@@ -165,7 +191,6 @@ public class Ceelo {
             System.out.println("<----------------------------->");
             System.out.print(ConsoleUtility.RESET);
         }
-
     }
     public int getWagers(Player player){
         System.out.print(player.getName() + ", how many chips would you like to wager for this round? ");
@@ -225,14 +250,14 @@ public class Ceelo {
         System.out.println("<----------------------------->");
     }
     public void checkTie(){
-        if (player1.getNumberOfChips() == player2.getNumberOfChips()){
+        if (player1.getNumberOfChips() == player2.getNumberOfChips() && player1.getNumberOfChips() == player3.getNumberOfChips()){
+            System.out.println("There seems to be a three-way tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
+        } else if (player1.getNumberOfChips() == player2.getNumberOfChips()){
             System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET));
         } else if (player1.getNumberOfChips() == player3.getNumberOfChips()){
             System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         } else if (player2.getNumberOfChips() == player3.getNumberOfChips()){
             System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
-        } else if (player1.getNumberOfChips() == player2.getNumberOfChips() && player1.getNumberOfChips() == player3.getNumberOfChips()){
-            System.out.println("There seems to be a three-way tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         }
     }
     public void printInfo(){
@@ -348,13 +373,14 @@ public class Ceelo {
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
         String name = scan.nextLine();
+        // make players
         player1 = new Player(name, 1000);
         System.out.print("Hello player 2! Please write your desired name: ");
         String name1 = scan.nextLine();
         player2 = new Player(name1, 1000);
         System.out.print("Hello player 3! Please write your desired name: ");
         String name2 = scan.nextLine();
-        player3 = new Player(name2, 20);
+        player3 = new Player(name2, 1000);
         //  make banker
         banker = new Banker(1000);
     }
