@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 
@@ -6,7 +7,6 @@ public class Ceelo {
     private Player player2;
     private Player player3;
     private Banker banker;
-    private Die die;
     Scanner scan = new Scanner(System.in);
     private int wage1;
     private int wage2;
@@ -16,7 +16,7 @@ public class Ceelo {
     private boolean pl3InGame = true;
 
     public Ceelo(){
-        die = new Die();
+
     }
 
     public void play(){
@@ -54,7 +54,7 @@ public class Ceelo {
                 pl3InGame = false;
             }
             banker.rollDiesBanker();
-            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + banker.getBankerDice1() + ", " + banker.getBankerDice2() + ", and " + banker.getBankerDice3() + ".");
+            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + banker.getBankerDice1() + ConsoleUtility.RESET)  + ", " + (ConsoleUtility.GREEN + banker.getBankerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + banker.getBankerDice3() + ConsoleUtility.RESET) + ".");
             System.out.println("<---------------------------------------------------------------------->");
             if (banker.getBankerWin() == 0){
                 checkPlayersInGameBankerWin(wage1, wage2, wage3);
@@ -62,32 +62,48 @@ public class Ceelo {
                 checkPlayersInGamePlayerWin(wage1, wage2, wage3);
             } else if (banker.getBankerWin() == 2){
                 int bankerScore = banker.getBankerScore();
-                System.out.println("As a result of a double, the banker's score is: " + bankerScore);
+                System.out.println("As a result of a double, the banker's score is: " + (ConsoleUtility.PURPLE + bankerScore + ConsoleUtility.RESET));
+                System.out.println("<----------------------------->");
                 if (pl1InGame){
-                    player1.rollDiesPlayer();
-                    System.out.println("<----------------------------->");
-                    System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player1.getPlayerDice1() + ", " + player1.getPlayerDice2() + ", and " + player1.getPlayerDice3() + ".");
-                    player1Conditions(wage1, bankerScore);
-                    System.out.println("<----------------------------->");
+                    try{
+                        Thread.sleep(3000);
+                        player1.rollDiesPlayer();
+                        System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player1.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player1.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player1.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                        player1Conditions(wage1, bankerScore);
+                        System.out.println("<----------------------------->");
+                    } catch (Exception e){
+                        System.out.println("error");
+                    }
                 }
                 if (pl2InGame){
-                    player2.rollDiesPlayer();
-                    System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player2.getPlayerDice1() + ", " + player2.getPlayerDice2() + ", and " + player2.getPlayerDice3() + ".");
-                    player2Conditions(wage2, bankerScore);
-                    System.out.println("<----------------------------->");
+                    try{
+                        Thread.sleep(3000);
+                        player2.rollDiesPlayer();
+                        System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player2.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player2.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player2.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                        player2Conditions(wage2, bankerScore);
+                        System.out.println("<----------------------------->");
+                    } catch (Exception e){
+                        System.out.println("error");
+                    }
                 }
                 if (pl3InGame){
-                    player3.rollDiesPlayer();
-                    System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + player3.getPlayerDice1() + ", " + player3.getPlayerDice2() + ", and " + player3.getPlayerDice3() + ".");
-                    player3Conditions(wage3, bankerScore);
-                    System.out.println("<----------------------------->");
+                    try {
+                        Thread.sleep(3000);
+                        player3.rollDiesPlayer();
+                        System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player3.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player3.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player3.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                        player3Conditions(wage3, bankerScore);
+                        System.out.println("<----------------------------->");
+                    } catch (Exception e){
+                        System.out.println("error");
+                    }
                 }
             }
-            System.out.println();
             System.out.println("These are how many chips each one of y'all have...");
+            System.out.print(ConsoleUtility.YELLOW);
             printInfo();
+            System.out.print(ConsoleUtility.RESET);
+            System.out.println("<----------------------------->");
             System.out.println();
-
             printEndOfRound(i);
             i++;
             System.out.println();
@@ -110,6 +126,21 @@ public class Ceelo {
                 System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
                 break;
             }
+            try {
+                Thread.sleep(10000);
+                try {
+                    ConsoleUtility.clearScreen();
+                } catch (Exception e) {
+                    System.out.println("error");
+                }
+            } catch (Exception e){
+                System.out.println("error");
+            }
+            System.out.println(ConsoleUtility.YELLOW + "<----------------------------->");
+            System.out.println(("FINAL CHIP COUNTS FOR THE ROUND"));
+            printInfo();
+            System.out.println("<----------------------------->");
+            System.out.print(ConsoleUtility.RESET);
         }
 
     }
@@ -141,6 +172,7 @@ public class Ceelo {
             bankerWin(0, 0, wage3);
             printInfo();
         }
+        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic win roll. Therefore he wins " + (wage1 + wage2 + wage3) + " chips in total!" + ConsoleUtility.RESET);
     }
     public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
@@ -165,6 +197,7 @@ public class Ceelo {
             playerWin(0, 0, wage3);
             printInfo();
         }
+        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic lose roll. Therefore he loses " + (wage1 + wage2 + wage3) + " chips in total and the players gain their own wages back!" + ConsoleUtility.RESET);
     }
     public void checkTie(){
         if (player1.getNumberOfChips() == player2.getNumberOfChips()){
@@ -184,9 +217,11 @@ public class Ceelo {
         System.out.println(player3.getName() + " has: " + player3.getNumberOfChips() + " chips");
     }
     public void printEndOfRound(int i){
+        System.out.print(ConsoleUtility.GREEN);
         System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
-        System.out.println("AND THAT IS THE END OF ROUND " + i + ". BE READY FOR THE NEXT ONE...");
+        System.out.println("AND THAT IS THE END OF ROUND " + i + "...");
         System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
+        System.out.print(ConsoleUtility.RESET);
     }
     public void bankerWin(int firstWage, int secondWage, int thirdWage){
         banker.incrementNumOfChips(firstWage);
@@ -213,20 +248,24 @@ public class Ceelo {
     public void player1Conditions(int wage1, int bankerScore){
         if (player1.getPlayerWin() == 0){
             playerWin(wage1, player1);
+            System.out.println(ConsoleUtility.CYAN + (player1.getName() + " had an automatic win roll! Therefore, he wins " + wage1 + " chips!") + ConsoleUtility.RESET);
             printInfo();
         } else if (player1.getPlayerWin() == 1){
             playerLose(wage1, player1);
+            System.out.println(ConsoleUtility.CYAN + (player1.getName() + " had an automatic lose roll. Therefore, he lost " + wage1 + " chips...") + ConsoleUtility.RESET);
             printInfo();
         } else if (player1.getPlayerWin() == 2){
             int player1Score = player1.getPlayerScore();
-            System.out.println("As a result of a double, " + player1.getName() + "'s score is: " + player1Score);
+            System.out.println("As a result of a double, " + player1.getName() + "'s score is: " + (ConsoleUtility.PURPLE + player1Score + ConsoleUtility.RESET));
             // compare score with JUST banker.
             boolean greaterScore = player1Score > bankerScore;
             if (greaterScore || player1Score == bankerScore){
                 playerWin(wage1, player1);
+                System.out.println(ConsoleUtility.CYAN + (player1.getName() + " had a greater or equal score! Therefore, he wins " + wage1 + " chips!") + ConsoleUtility.RESET);
                 printInfo();
             } else {
                 playerLose(wage1, player1);
+                System.out.println(ConsoleUtility.CYAN + (player1.getName() + " had a lower score! Therefore, he lost " + wage1 + " chips...") + ConsoleUtility.RESET);
                 printInfo();
             }
         }
@@ -234,20 +273,24 @@ public class Ceelo {
     public void player2Conditions(int wage2, int bankerScore){
         if (player2.getPlayerWin() == 0){
             playerWin(wage2, player2);
+            System.out.println(ConsoleUtility.CYAN + (player2.getName() + " had an automatic win roll! Therefore, he wins " + wage2 + " chips!") + ConsoleUtility.RESET);
             printInfo();
         } else if (player2.getPlayerWin() == 1){
             playerLose(wage2, player2);
+            System.out.println(ConsoleUtility.CYAN + (player2.getName() + " had an automatic lose roll. Therefore, he lost " + wage2 + " chips...") + ConsoleUtility.RESET);
             printInfo();
         } else if (player2.getPlayerWin() == 2){
             int player2Score = player2.getPlayerScore();
-            System.out.println("As a result of a double, " + player2.getName()+ "'s score is: " + player2Score);
+            System.out.println("As a result of a double, " + player2.getName()+ "'s score is: " + (ConsoleUtility.PURPLE + player2Score + ConsoleUtility.RESET));
             // compare score with JUST banker.
             boolean greaterScore = player2Score > bankerScore;
             if (greaterScore || player2Score == bankerScore){
                 playerWin(wage2, player2);
+                System.out.println(ConsoleUtility.CYAN + (player2.getName() + " had a greater or equal score! Therefore, he wins " + wage2 + " chips!") + ConsoleUtility.RESET);
                 printInfo();
             } else {
                 playerLose(wage2, player2);
+                System.out.println(ConsoleUtility.CYAN + (player2.getName() + " had a lower score! Therefore, he lost " + wage2 + " chips...") + ConsoleUtility.RESET);
                 printInfo();
             }
         }
@@ -255,20 +298,24 @@ public class Ceelo {
     public void player3Conditions(int wage3, int bankerScore){
         if (player3.getPlayerWin() == 0){
             playerWin(wage3, player3);
+            System.out.println(ConsoleUtility.CYAN + (player3.getName() + " had an automatic win roll! Therefore, he wins " + wage3 + " chips!") + ConsoleUtility.RESET);
             printInfo();
         } else if (player3.getPlayerWin() == 1){
             playerLose(wage3, player3);
+            System.out.println(ConsoleUtility.CYAN + (player3.getName() + " had an automatic lose roll. Therefore, he lost " + wage3 + " chips...") + ConsoleUtility.RESET);
             printInfo();
         } else if (player3.getPlayerWin() == 2){
             int player3Score = player3.getPlayerScore();
-            System.out.println("As a result of a double, " + player3.getName() + "'s score is: " + player3Score);
+            System.out.println("As a result of a double, " + player3.getName() + "'s score is: " + (ConsoleUtility.PURPLE + player3Score + ConsoleUtility.RESET));
             // compare score with JUST banker.
             boolean greaterScore = player3Score > bankerScore;
             if (greaterScore || (player3Score == bankerScore)){
                 playerWin(wage3, player3);
+                System.out.println(ConsoleUtility.CYAN + (player3.getName() + " had a greater or equal score! Therefore, he wins " + wage3 + " chips!") + ConsoleUtility.RESET);
                 printInfo();
             } else {
                 playerLose(wage3, player3);
+                System.out.println(ConsoleUtility.CYAN + (player3.getName() + " had a lower score! Therefore, he lost " + wage3 + " chips...") + ConsoleUtility.RESET);
                 printInfo();
             }
         }
