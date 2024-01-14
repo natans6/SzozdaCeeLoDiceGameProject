@@ -173,6 +173,7 @@ public class Ceelo {
             printInfo();
         }
         System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic win roll. Therefore he wins " + (wage1 + wage2 + wage3) + " chips in total!" + ConsoleUtility.RESET);
+        System.out.println("<----------------------------->");
     }
     public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
@@ -198,6 +199,7 @@ public class Ceelo {
             printInfo();
         }
         System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic lose roll. Therefore he loses " + (wage1 + wage2 + wage3) + " chips in total and the players gain their own wages back!" + ConsoleUtility.RESET);
+        System.out.println("<----------------------------->");
     }
     public void checkTie(){
         if (player1.getNumberOfChips() == player2.getNumberOfChips()){
