@@ -130,8 +130,27 @@ public class Ceelo {
                 System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
                 break;
             }
+            System.out.println("<----------------------------->");
+            // checking who's in game
+            System.out.println("Players who lost:");
+            if (!player1.checkIfInGame()){
+                System.out.println("Since " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " has no more chips left, the player cannot play anymore. Unlucky...");
+                player1.setNumberOfChips(0);
+            }
+            if (!player2.checkIfInGame()){
+                System.out.println("Since " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " has no more chips left, the player cannot play anymore. Unlucky...");
+                player2.setNumberOfChips(0);
+            }
+            if (!player3.checkIfInGame()){
+                System.out.println("Since " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET) + " has no more chips left, the player cannot play anymore. Unlucky...");
+                player3.setNumberOfChips(0);
+            }
+            if (!banker.checkIfInGame()){
+                System.out.println("Since the " + (ConsoleUtility.CYAN + "banker" + ConsoleUtility.RESET) + " has no more chips left, the banker lost. Unlucky...");
+            }
+            System.out.println("<----------------------------->");
             try {
-                Thread.sleep(10000);
+                Thread.sleep(7000);
                 try {
                     ConsoleUtility.clearScreen();
                 } catch (Exception e) {
@@ -335,7 +354,7 @@ public class Ceelo {
         player2 = new Player(name1, 1000);
         System.out.print("Hello player 3! Please write your desired name: ");
         String name2 = scan.nextLine();
-        player3 = new Player(name2, 1000);
+        player3 = new Player(name2, 20);
         //  make banker
         banker = new Banker(1000);
     }
