@@ -36,18 +36,21 @@ public class Ceelo {
         while (banker.checkIfInGame() || (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
             System.out.println("At this time, please input the amount of chips you would like to wager for the round...");
             if (player1.checkIfInGame()){
+                System.out.println(player1.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player1.getNumberOfChips() + ConsoleUtility.RESET));
                 player1.setChipsWagered(getWagers(player1));
                 wage1 = player1.getChipsWagered();
             } else {
                 pl1InGame = false;
             }
             if (player2.checkIfInGame()){
+                System.out.println(player2.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player2.getNumberOfChips() + ConsoleUtility.RESET));
                 player2.setChipsWagered(getWagers(player2));
                 wage2 = player2.getChipsWagered();
             } else {
                 pl2InGame = false;
             }
             if (player3.checkIfInGame()){
+                System.out.println(player3.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player3.getNumberOfChips() + ConsoleUtility.RESET));
                 player3.setChipsWagered(getWagers(player3));
                 wage3 = player3.getChipsWagered();
             } else {
@@ -98,11 +101,12 @@ public class Ceelo {
                     }
                 }
             }
-            System.out.println("These are how many chips each one of y'all have...");
             System.out.print(ConsoleUtility.YELLOW);
-            printInfo();
-            System.out.print(ConsoleUtility.RESET);
             System.out.println("<----------------------------->");
+            System.out.println("These are how many chips each one of y'all have...");
+            printInfo();
+            System.out.println("<----------------------------->");
+            System.out.print(ConsoleUtility.RESET);
             System.out.println();
             printEndOfRound(i);
             i++;
@@ -113,11 +117,11 @@ public class Ceelo {
                 int amountChips2 = player2.getNumberOfChips();
                 int amountChips3 = player3.getNumberOfChips();
                 if ((amountChips1 > amountChips2) && (amountChips1 > amountChips3)){
-                    System.out.println(player1.getName() + " has won the game with " + player1.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    System.out.println((ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " has won the game with " + player1.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
                 } else if ((amountChips2 > amountChips1) && (amountChips2 > amountChips3)){
-                    System.out.println(player2.getName() + " has won the game with " + player2.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    System.out.println((ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " has won the game with " + player2.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
                 } else if ((amountChips3 > amountChips1) && (amountChips3 > amountChips2)){
-                    System.out.println(player3.getName() + " has won the game with " + player3.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    System.out.println((ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET) + " has won the game with " + player3.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
                 } else{
                     checkTie();
                 }
@@ -203,13 +207,13 @@ public class Ceelo {
     }
     public void checkTie(){
         if (player1.getNumberOfChips() == player2.getNumberOfChips()){
-            System.out.println("There seems to be a tie between " + player1.getName() + " and " + player2.getName());
+            System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET));
         } else if (player1.getNumberOfChips() == player3.getNumberOfChips()){
-            System.out.println("There seems to be a tie between " + player1.getName() + " and " + player3.getName());
+            System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         } else if (player2.getNumberOfChips() == player3.getNumberOfChips()){
-            System.out.println("There seems to be a tie between " + player2.getName() + " and " + player3.getName());
+            System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         } else if (player1.getNumberOfChips() == player2.getNumberOfChips() && player1.getNumberOfChips() == player3.getNumberOfChips()){
-            System.out.println("There seems to be a three-way tie between " + player1.getName() + ", " + player2.getName() + ", and " + player3.getName());
+            System.out.println("There seems to be a three-way tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         }
     }
     public void printInfo(){
