@@ -11,7 +11,7 @@ public class Ceelo {
     private int wage1;
     private int wage2;
     private int wage3;
-    private static final int MAX_WAGER_LIMIT = 500;
+    private int MAX_WAGER_LIMIT;
     private boolean pl1InGame = true;
     private boolean pl2InGame = true;
     private boolean pl3InGame = true;
@@ -210,7 +210,7 @@ public class Ceelo {
         System.out.print(player.getName() + ", how many chips would you like to wager for this round? ");
 
         int availableChips = player.getNumberOfChips();
-
+        MAX_WAGER_LIMIT = player.getNumberOfChips();
         // Set a limit for wager based on the player's current chip count
         int maxWager = Math.min(availableChips, MAX_WAGER_LIMIT);  // MAX_WAGER_LIMIT is the maximum allowed wager
 
@@ -429,6 +429,12 @@ public class Ceelo {
         }
 
     }
+    public void reset(String name1, String name2, String name3){
+        this.player1 = new Player(name1, 1000);
+        this.player2 = new Player(name2, 1000);
+        this.player3 = new Player(name3, 1000);
+        this.banker = new Banker(1000);
+    }
     // Asks the name of each player and creates the objects for all 3 players and banker consisting of 1000 chips
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
@@ -443,5 +449,6 @@ public class Ceelo {
         player3 = new Player(name2, 1000);
         //  make banker
         banker = new Banker(1000);
+        reset(name, name1, name2);
     }
 }
