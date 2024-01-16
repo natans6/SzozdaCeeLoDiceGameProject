@@ -18,8 +18,13 @@ public class Ceelo {
     private boolean wantToPlay = true;
     private int highestChipCountEver = 0;
 
+    // Constructor
     public Ceelo(){
 
+    }
+
+    public int getHighestChipCountEver() {
+        return highestChipCountEver;
     }
 
     public void play(){
@@ -29,11 +34,11 @@ public class Ceelo {
             afterGameEnds();
         }
     }
-
     public void intro(){
         System.out.println("<---------------------------------------------------------------------->");
         System.out.println("Welcome to the game CEE-LOOO!!! \nYou have the chance to either win or lose money...\nPlease only play this game if you are sure.");
     }
+    // Main menu where user decides between starting a new game, viewing the highest score achieved, and quiting the game
     public void mainMenu(){
         System.out.println("<---------------------------------------------------------------------->");
         System.out.println("Would you like to: ");
@@ -64,6 +69,7 @@ public class Ceelo {
             System.exit(0);
         }
     }
+    // Main game loop
     public void rounds(){
         int i = 1;
         while (banker.checkIfInGame() || (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
@@ -199,6 +205,7 @@ public class Ceelo {
             System.out.print(ConsoleUtility.RESET);
         }
     }
+    // Asks users for wage amount for the round
     public int getWagers(Player player){
         System.out.print(player.getName() + ", how many chips would you like to wager for this round? ");
 
@@ -219,9 +226,7 @@ public class Ceelo {
 
         return wager;
     }
-    public int getHighestChipCountEver() {
-        return highestChipCountEver;
-    }
+    // Checks who are in the game and then implements the correct incrementation and decremental of chips based on the banker winning the round.
     public void checkPlayersInGameBankerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             bankerWin(wage1, wage2, wage3);
@@ -248,6 +253,7 @@ public class Ceelo {
         System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic win roll. Therefore he wins " + (wage1 + wage2 + wage3) + " chips in total!" + ConsoleUtility.RESET);
         System.out.println("<----------------------------->");
     }
+    // Checks who are in the game and then implements the correct incrementation and decremental of chips based on the player winning the round.
     public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             playerWin(wage1, wage2, wage3);
@@ -274,6 +280,7 @@ public class Ceelo {
         System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic lose roll. Therefore he loses " + (wage1 + wage2 + wage3) + " chips in total and the players gain their own wages back!" + ConsoleUtility.RESET);
         System.out.println("<----------------------------->");
     }
+    // Checks if players have the same amount of chips at the end of the game
     public void checkTie(){
         if (player1.getNumberOfChips() == player2.getNumberOfChips() && player1.getNumberOfChips() == player3.getNumberOfChips()){
             System.out.println("There seems to be a three-way tie between " + (ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
@@ -285,6 +292,7 @@ public class Ceelo {
             System.out.println("There seems to be a tie between " + (ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " and " + (ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET));
         }
     }
+    // Prints amount of chips every player and the banker has
     public void printInfo(){
         System.out.println("The banker has: " + banker.getNumOfChips() + " chips");
         System.out.println(player1.getName() + " has: " + player1.getNumberOfChips() + " chips");
@@ -294,6 +302,7 @@ public class Ceelo {
         int currentHighest = Math.max(player1.getNumberOfChips(), Math.max(player2.getNumberOfChips(), player3.getNumberOfChips()));
         highestChipCountEver = Math.max(highestChipCountEver, currentHighest);
     }
+    // Prints a message indicating the end of a round
     public void printEndOfRound(int i){
         System.out.print(ConsoleUtility.GREEN);
         System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
@@ -301,6 +310,7 @@ public class Ceelo {
         System.out.println("[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]");
         System.out.print(ConsoleUtility.RESET);
     }
+    // Method for incrementing banker's chips and decrementing player's chips
     public void bankerWin(int firstWage, int secondWage, int thirdWage){
         banker.incrementNumOfChips(firstWage);
         banker.incrementNumOfChips(secondWage);
@@ -309,20 +319,24 @@ public class Ceelo {
         player2.decreaseNumOfChips(secondWage);
         player3.decreaseNumOfChips(thirdWage);
     }
+    // Method for incrementing player's chips and decrementing banker's chips
     public void playerWin(int wage, Player pl){
         pl.incrementNumOfChips(wage);
         banker.decreaseNumOfChips(wage);
     }
+    // Method for incrementing player's chips and decrementing banker's chips if banker automatically loses the round
     public void playerWin(int wage1, int wage2, int wage3){
         player1.incrementNumOfChips(wage1);
         player2.incrementNumOfChips(wage2);
         player3.incrementNumOfChips(wage3);
         banker.decreaseNumOfChips(wage1 + wage2 + wage3);
     }
+    // Method for incrementing banker's chips and decrementing player's chips when a player loses the round
     public void playerLose(int firstWage, Player player){
         player.decreaseNumOfChips(firstWage);
         banker.incrementNumOfChips(firstWage);
     }
+    // Consists of the conditions needed to be met for a player to win a round; contains the playerWin method, playerLose method, and the comparison of scores with the banker
     public void player1Conditions(int wage1, int bankerScore){
         if (player1.getPlayerWin() == 0){
             playerWin(wage1, player1);
@@ -348,6 +362,7 @@ public class Ceelo {
             }
         }
     }
+    // Consists of the conditions needed to be met for a player to win a round; contains the playerWin method, playerLose method, and the comparison of scores with the banker
     public void player2Conditions(int wage2, int bankerScore){
         if (player2.getPlayerWin() == 0){
             playerWin(wage2, player2);
@@ -373,6 +388,7 @@ public class Ceelo {
             }
         }
     }
+    // Consists of the conditions needed to be met for a player to win a round; contains the playerWin method, playerLose method, and the comparison of scores with the banker
     public void player3Conditions(int wage3, int bankerScore){
         if (player3.getPlayerWin() == 0){
             playerWin(wage3, player3);
@@ -398,6 +414,7 @@ public class Ceelo {
             }
         }
     }
+    // Loads up main menu after game ends using a sleep method
     public void afterGameEnds(){
         try{
             System.out.println("Time to go back to the main menu!");
@@ -412,6 +429,7 @@ public class Ceelo {
         }
 
     }
+    // Asks the name of each player and creates the objects for all 3 players and banker consisting of 1000 chips
     private void askName(){
         System.out.print("Hello player 1! Please write your desired name: ");
         String name = scan.nextLine();
