@@ -217,11 +217,13 @@ public class Ceelo {
         // Get player input for wager
         System.out.print("Enter wager (up to " + maxWager + " chips): ");
         int wager = scan.nextInt();
+        scan.nextLine();
 
         // Validate the wager to be within the allowed limit
         while (wager < 10 || wager > maxWager) {
             System.out.print("Invalid wager. Enter a wager between 10 and " + maxWager + ": ");
             wager = scan.nextInt();
+            scan.nextLine();
         }
 
         return wager;
@@ -416,24 +418,24 @@ public class Ceelo {
     }
     // Loads up main menu after game ends using a sleep method
     public void afterGameEnds(){
+        System.out.println("Time to go back to the main menu!");
         try{
-            System.out.println("Time to go back to the main menu!");
             Thread.sleep(5000);
-            try{
-                ConsoleUtility.clearScreen();
-            } catch (Exception e){
-                System.out.println("error");
-            }
+            ConsoleUtility.clearScreen();
         } catch (Exception e){
             System.out.println("error");
         }
-
     }
     public void reset(String name1, String name2, String name3){
         this.player1 = new Player(name1, 1000);
         this.player2 = new Player(name2, 1000);
         this.player3 = new Player(name3, 1000);
         this.banker = new Banker(1000);
+    }
+    public void resetRoles(){
+        pl1InGame = true;
+        pl2InGame = true;
+        pl3InGame = true;
     }
     // Asks the name of each player and creates the objects for all 3 players and banker consisting of 1000 chips
     private void askName(){
@@ -450,5 +452,6 @@ public class Ceelo {
         //  make banker
         banker = new Banker(1000);
         reset(name, name1, name2);
+        resetRoles();
     }
 }
