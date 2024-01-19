@@ -49,12 +49,13 @@ public class Ceelo {
         String answer = scan.nextLine();
         if (answer.equals("S") || answer.equals("s")){
             System.out.println("<---------------------------------------------------------------------->");
-            System.out.println("Each player starts with 1000 chips each and as well as the banker.");
+            System.out.println("Each player starts with 100 chips each and the banker starts with 1000 chips.");
             System.out.println("Each player and the one banker will roll 3 dices. The combinations will determine if you win or lose your round.");
             System.out.println("Rolling a 4, 5, 6 combination or a triple matching combination results in the player or banker automatically winning ");
             System.out.println("Rolling a 1, 2, 3 combination results in the player or banker automatically losing.");
             System.out.println("If a player or banker rolls two of the same numbers with the last number being different, that third number relates to their 'score.' ");
             System.out.println("This score then gets compared to the banker or vice a versa to determine who wins the round.");
+            System.out.println("Each player has to place a bet; banker does not...");
             System.out.println("GOOD LUCK!!!");
             System.out.println("<---------------------------------------------------------------------->");
             askName();
@@ -72,7 +73,7 @@ public class Ceelo {
     // Main game loop
     public void rounds(){
         int i = 1;
-        while (banker.checkIfInGame() || (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
+        while ((player1.checkIfInGame() || player2.checkIfInGame() || player3.checkIfInGame())){
             System.out.println("At this time, please input the amount of chips you would like to wager for the round...");
             if (player1.checkIfInGame()){
                 System.out.println(player1.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player1.getNumberOfChips() + ConsoleUtility.RESET));
@@ -80,6 +81,8 @@ public class Ceelo {
                 wage1 = player1.getChipsWagered();
             } else {
                 pl1InGame = false;
+                player1.setChipsWagered(0);
+                wage1 = player1.getChipsWagered();
             }
             if (player2.checkIfInGame()){
                 System.out.println(player2.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player2.getNumberOfChips() + ConsoleUtility.RESET));
@@ -87,6 +90,8 @@ public class Ceelo {
                 wage2 = player2.getChipsWagered();
             } else {
                 pl2InGame = false;
+                player2.setChipsWagered(0);
+                wage2 = player2.getChipsWagered();
             }
             if (player3.checkIfInGame()){
                 System.out.println(player3.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player3.getNumberOfChips() + ConsoleUtility.RESET));
@@ -94,80 +99,63 @@ public class Ceelo {
                 wage3 = player3.getChipsWagered();
             } else {
                 pl3InGame = false;
+                player3.setChipsWagered(0);
+                wage3 = player3.getChipsWagered();
             }
-            banker.rollDiesBanker();
-            System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + banker.getBankerDice1() + ConsoleUtility.RESET)  + ", " + (ConsoleUtility.GREEN + banker.getBankerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + banker.getBankerDice3() + ConsoleUtility.RESET) + ".");
-            System.out.println("<---------------------------------------------------------------------->");
-            if (banker.getBankerWin() == 0){
-                checkPlayersInGameBankerWin(wage1, wage2, wage3);
-            } else if (banker.getBankerWin() == 1){
-                checkPlayersInGamePlayerWin(wage1, wage2, wage3);
-            } else if (banker.getBankerWin() == 2){
-                int bankerScore = banker.getBankerScore();
-                System.out.println("As a result of a double, the banker's score is: " + (ConsoleUtility.PURPLE + bankerScore + ConsoleUtility.RESET));
+            if (banker.checkIfInGame() && (pl1InGame || pl2InGame || pl3InGame)){
+                banker.rollDiesBanker();
+                System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + banker.getBankerDice1() + ConsoleUtility.RESET)  + ", " + (ConsoleUtility.GREEN + banker.getBankerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + banker.getBankerDice3() + ConsoleUtility.RESET) + ".");
+                System.out.println("<---------------------------------------------------------------------->");
+                if (banker.getBankerWin() == 0){
+                    checkPlayersInGameBankerWin(wage1, wage2, wage3);
+                } else if (banker.getBankerWin() == 1){
+                    checkPlayersInGamePlayerWin(wage1, wage2, wage3);
+                } else if (banker.getBankerWin() == 2){
+                    int bankerScore = banker.getBankerScore();
+                    System.out.println("As a result of a double, the banker's score is: " + (ConsoleUtility.PURPLE + bankerScore + ConsoleUtility.RESET));
+                    System.out.println("<----------------------------->");
+                    if (pl1InGame){
+                        try{
+                            Thread.sleep(3000);
+                            player1.rollDiesPlayer();
+                            System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player1.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player1.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player1.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                            player1Conditions(wage1, bankerScore);
+                            System.out.println("<----------------------------->");
+                        } catch (Exception e){
+                            System.out.println("error");
+                        }
+                    }
+                    if (pl2InGame){
+                        try{
+                            Thread.sleep(3000);
+                            player2.rollDiesPlayer();
+                            System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player2.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player2.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player2.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                            player2Conditions(wage2, bankerScore);
+                            System.out.println("<----------------------------->");
+                        } catch (Exception e){
+                            System.out.println("error");
+                        }
+                    }
+                    if (pl3InGame){
+                        try {
+                            Thread.sleep(3000);
+                            player3.rollDiesPlayer();
+                            System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player3.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player3.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player3.getPlayerDice3() + ConsoleUtility.RESET) + ".");
+                            player3Conditions(wage3, bankerScore);
+                            System.out.println("<----------------------------->");
+                        } catch (Exception e){
+                            System.out.println("error");
+                        }
+                    }
+                }
+                System.out.println(ConsoleUtility.YELLOW + "<----------------------------->");
+                System.out.println(("FINAL CHIP COUNTS FOR THE ROUND"));
+                printInfo();
                 System.out.println("<----------------------------->");
-                if (pl1InGame){
-                    try{
-                        Thread.sleep(3000);
-                        player1.rollDiesPlayer();
-                        System.out.println(player1.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player1.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player1.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player1.getPlayerDice3() + ConsoleUtility.RESET) + ".");
-                        player1Conditions(wage1, bankerScore);
-                        System.out.println("<----------------------------->");
-                    } catch (Exception e){
-                        System.out.println("error");
-                    }
-                }
-                if (pl2InGame){
-                    try{
-                        Thread.sleep(3000);
-                        player2.rollDiesPlayer();
-                        System.out.println(player2.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player2.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player2.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player2.getPlayerDice3() + ConsoleUtility.RESET) + ".");
-                        player2Conditions(wage2, bankerScore);
-                        System.out.println("<----------------------------->");
-                    } catch (Exception e){
-                        System.out.println("error");
-                    }
-                }
-                if (pl3InGame){
-                    try {
-                        Thread.sleep(3000);
-                        player3.rollDiesPlayer();
-                        System.out.println(player3.getName() + " has rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + player3.getPlayerDice1() + ConsoleUtility.RESET) + ", " + (ConsoleUtility.GREEN + player3.getPlayerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + player3.getPlayerDice3() + ConsoleUtility.RESET) + ".");
-                        player3Conditions(wage3, bankerScore);
-                        System.out.println("<----------------------------->");
-                    } catch (Exception e){
-                        System.out.println("error");
-                    }
-                }
-            }
-            System.out.print(ConsoleUtility.YELLOW);
-            System.out.println("<----------------------------->");
-            System.out.println("These are how many chips each one of y'all have...");
-            printInfo();
-            System.out.println("<----------------------------->");
-            System.out.print(ConsoleUtility.RESET);
-            System.out.println();
-            printEndOfRound(i);
-            i++;
-            System.out.println();
-            if (!banker.checkIfInGame()){
-                System.out.println("Since the banker has no more chips remaining, the players have broken the bank and as a result have won the game. And now lets see who had the most amount of chips!");
-                int amountChips1 = player1.getNumberOfChips();
-                int amountChips2 = player2.getNumberOfChips();
-                int amountChips3 = player3.getNumberOfChips();
-                if ((amountChips1 > amountChips2) && (amountChips1 > amountChips3)){
-                    System.out.println((ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " has won the game with " + player1.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
-                } else if ((amountChips2 > amountChips1) && (amountChips2 > amountChips3)){
-                    System.out.println((ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " has won the game with " + player2.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
-                } else if ((amountChips3 > amountChips1) && (amountChips3 > amountChips2)){
-                    System.out.println((ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET) + " has won the game with " + player3.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
-                } else{
-                    checkTie();
-                }
-                break;
-            } else if (!pl1InGame && !pl2InGame && !pl3InGame){
-                System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
-                break;
+                System.out.print(ConsoleUtility.RESET);
+                printEndOfRound(i);
+                i++;
+                System.out.println();
             }
             System.out.println("<----------------------------->");
             // checking who's in game
@@ -185,24 +173,58 @@ public class Ceelo {
                 player3.setNumberOfChips(0);
             }
             if (!banker.checkIfInGame()){
-                System.out.println("Since the " + (ConsoleUtility.CYAN + "banker" + ConsoleUtility.RESET) + " has no more chips left, the banker lost. Unlucky...");
+                System.out.println("Since the " + (ConsoleUtility.RED + "banker" + ConsoleUtility.RESET) + " has no more chips left, the banker lost. Unlucky...");
+                System.out.println("<----------------------------->");
+                break;
             }
             System.out.println("<----------------------------->");
             try {
-                Thread.sleep(7000);
-                try {
-                    ConsoleUtility.clearScreen();
-                } catch (Exception e) {
-                    System.out.println("error");
+                if (!banker.checkIfInGame()){
+                    System.out.println("Since the banker has no more chips remaining, the players have broken the bank and as a result have won the game. And now lets see who had the most amount of chips!");
+                    int amountChips1 = player1.getNumberOfChips();
+                    int amountChips2 = player2.getNumberOfChips();
+                    int amountChips3 = player3.getNumberOfChips();
+                    if ((amountChips1 > amountChips2) && (amountChips1 > amountChips3)){
+                        System.out.println((ConsoleUtility.CYAN + player1.getName() + ConsoleUtility.RESET) + " has won the game with " + player1.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    } else if ((amountChips2 > amountChips1) && (amountChips2 > amountChips3)){
+                        System.out.println((ConsoleUtility.CYAN + player2.getName() + ConsoleUtility.RESET) + " has won the game with " + player2.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    } else if ((amountChips3 > amountChips1) && (amountChips3 > amountChips2)){
+                        System.out.println((ConsoleUtility.CYAN + player3.getName() + ConsoleUtility.RESET) + " has won the game with " + player3.getNumberOfChips() + " chips!!! Congratulations and come back next time...");
+                    } else{
+                        checkTie();
+                    }
+                    Thread.sleep(5000);
                 }
             } catch (Exception e){
                 System.out.println("error");
             }
-            System.out.println(ConsoleUtility.YELLOW + "<----------------------------->");
-            System.out.println(("FINAL CHIP COUNTS FOR THE ROUND"));
-            printInfo();
-            System.out.println("<----------------------------->");
-            System.out.print(ConsoleUtility.RESET);
+            try {
+                Thread.sleep(7000);
+            } catch (Exception e){
+                System.out.println("error");
+            }
+            try{
+                ConsoleUtility.clearScreen();
+                System.out.println("<----------------------------->");
+                System.out.println(ConsoleUtility.YELLOW + "The banker has a total of: " + banker.getNumOfChips() + ConsoleUtility.RESET);
+                System.out.println("<----------------------------->");
+            } catch (Exception e){
+                System.out.println("error");
+            }
+
+        }
+        if (banker.checkIfInGame() && (!player1.checkIfInGame() && !player2.checkIfInGame() && !player3.checkIfInGame())){
+            System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the banker the winner and the players the losers. Get out of here...");
+            try {
+                Thread.sleep(7000);
+            } catch (Exception e){
+                System.out.println("error");
+            }
+            try{
+                ConsoleUtility.clearScreen();
+            } catch (Exception e){
+                System.out.println("error");
+            }
         }
     }
     // Asks users for wage amount for the round
@@ -220,8 +242,8 @@ public class Ceelo {
         scan.nextLine();
 
         // Validate the wager to be within the allowed limit
-        while (wager < 10 || wager > maxWager) {
-            System.out.print("Invalid wager. Enter a wager between 10 and " + maxWager + ": ");
+        while (wager < 0 || wager > maxWager) {
+            System.out.print("Invalid wager. Enter a wager between 0 and " + maxWager + ": ");
             wager = scan.nextInt();
             scan.nextLine();
         }
@@ -230,6 +252,7 @@ public class Ceelo {
     }
     // Checks who are in the game and then implements the correct incrementation and decremental of chips based on the banker winning the round.
     public void checkPlayersInGameBankerWin(int wage1, int wage2, int wage3){
+        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic win roll. Therefore he wins " + (wage1 + wage2 + wage3) + " chips in total!" + ConsoleUtility.RESET);
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             bankerWin(wage1, wage2, wage3);
             printInfo();
@@ -252,11 +275,11 @@ public class Ceelo {
             bankerWin(0, 0, wage3);
             printInfo();
         }
-        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic win roll. Therefore he wins " + (wage1 + wage2 + wage3) + " chips in total!" + ConsoleUtility.RESET);
         System.out.println("<----------------------------->");
     }
     // Checks who are in the game and then implements the correct incrementation and decremental of chips based on the player winning the round.
     public void checkPlayersInGamePlayerWin(int wage1, int wage2, int wage3){
+        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic lose roll. Therefore he loses " + (wage1 + wage2 + wage3) + " chips in total and the players gain their own wages back!" + ConsoleUtility.RESET);
         if (player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame()){
             playerWin(wage1, wage2, wage3);
             printInfo();
@@ -279,7 +302,6 @@ public class Ceelo {
             playerWin(0, 0, wage3);
             printInfo();
         }
-        System.out.println(ConsoleUtility.CYAN + "The banker has rolled an automatic lose roll. Therefore he loses " + (wage1 + wage2 + wage3) + " chips in total and the players gain their own wages back!" + ConsoleUtility.RESET);
         System.out.println("<----------------------------->");
     }
     // Checks if players have the same amount of chips at the end of the game
@@ -427,9 +449,9 @@ public class Ceelo {
         }
     }
     public void reset(String name1, String name2, String name3){
-        this.player1 = new Player(name1, 1000);
-        this.player2 = new Player(name2, 1000);
-        this.player3 = new Player(name3, 1000);
+        this.player1 = new Player(name1, 100);
+        this.player2 = new Player(name2, 100);
+        this.player3 = new Player(name3, 100);
         this.banker = new Banker(1000);
     }
     public void resetRoles(){
@@ -442,13 +464,13 @@ public class Ceelo {
         System.out.print("Hello player 1! Please write your desired name: ");
         String name = scan.nextLine();
         // make players
-        player1 = new Player(name, 1000);
+        player1 = new Player(name, 100);
         System.out.print("Hello player 2! Please write your desired name: ");
         String name1 = scan.nextLine();
-        player2 = new Player(name1, 1000);
+        player2 = new Player(name1, 100);
         System.out.print("Hello player 3! Please write your desired name: ");
         String name2 = scan.nextLine();
-        player3 = new Player(name2, 1000);
+        player3 = new Player(name2, 100);
         //  make banker
         banker = new Banker(1000);
         reset(name, name1, name2);
