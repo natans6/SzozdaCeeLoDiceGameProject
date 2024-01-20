@@ -54,7 +54,7 @@ public class Ceelo {
             System.out.println("Rolling a 4, 5, 6 combination or a triple matching combination results in the player or banker automatically winning ");
             System.out.println("Rolling a 1, 2, 3 combination results in the player or banker automatically losing.");
             System.out.println("If a player or banker rolls two of the same numbers with the last number being different, that third number relates to their 'score.' ");
-            System.out.println("This score then gets compared to the banker or vice a versa to determine who wins the round.");
+            System.out.println("This score then gets compared to the banker or vice versa to determine who wins the round.");
             System.out.println("Each player has to place a bet; banker does not...");
             System.out.println("GOOD LUCK!!!");
             System.out.println("<---------------------------------------------------------------------->");
