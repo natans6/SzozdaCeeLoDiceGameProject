@@ -205,7 +205,7 @@ public class Ceelo {
         } else if (!(player1.checkIfInGame() && player2.checkIfInGame() && player3.checkIfInGame())){
             System.out.println("It seems that all three players have lost all of their chips. Therefore, I declare the " + (ConsoleUtility.CYAN + "banker" + ConsoleUtility.RESET) + " the winner and the players the losers. Get out of here...");
             System.out.println("The banker has won with " + banker.getNumOfChips() + " chips!! Unlucky to the players, maybe next time...");
-            System.out.println("<----------------------------->");
+            System.out.println(ConsoleUtility.PURPLE + "<----------------------------->" + ConsoleUtility.RESET);
         }
         try {
             Thread.sleep(7000);
