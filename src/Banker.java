@@ -40,6 +40,9 @@ public class Banker {
         win2 = die2.getWin();
 
     }
+    public void setNumberOfChips(int newChips) {
+        numOfChips = newChips;
+    }
     public void incrementNumOfChips(int numOfChipsWon){
         numOfChips += numOfChipsWon;
     }

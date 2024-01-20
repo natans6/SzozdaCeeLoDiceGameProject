@@ -41,9 +41,6 @@ public class Player {
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
-    public void setNumberOfChips(int newChips) {
-        numberOfChips = newChips;
-    }
     public void rollDiesPlayer(){
         die1 = new Die();
         die1.dieSequence();
