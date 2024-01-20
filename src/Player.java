@@ -41,6 +41,7 @@ public class Player {
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
+    // Rolls the 3 die for the player
     public void rollDiesPlayer(){
         die1 = new Die();
         die1.dieSequence();
@@ -49,12 +50,15 @@ public class Player {
         playerDice3 = die1.getDice3();
         win = die1.getWin();
     }
+    // Checks if the player has more than 0 chips to continue playing the game
     public boolean checkIfInGame(){
         return numberOfChips > 0;
     }
+    // Increments the number of chips for a player based on their bet
     public void incrementNumOfChips(int newChipsWagered){
         numberOfChips += newChipsWagered;
     }
+    // Decrements the number of chips for a player based on their bet
     public void decreaseNumOfChips(int newChipsWagered){
         numberOfChips -= newChipsWagered;
     }

@@ -28,9 +28,10 @@ public class Banker {
     public int getBankerScore(){
         return die2.getScore();
     }
-    public boolean checkIfInGame(){
-        return numOfChips > 0;
+    public void setNumberOfChips(int newChips) {
+        numOfChips = newChips;
     }
+    // Rolls the 3 die for the banker
     public void rollDiesBanker(){
         die2 = new Die();
         die2.dieSequence();
@@ -38,14 +39,16 @@ public class Banker {
         bankerDice2 = die2.getDice2();
         bankerDice3 = die2.getDice3();
         win2 = die2.getWin();
-
     }
-    public void setNumberOfChips(int newChips) {
-        numOfChips = newChips;
+    // Checks if the banker has more than 0 chips to continue playing the game
+    public boolean checkIfInGame(){
+        return numOfChips > 0;
     }
+    // Increments the number of chips for the banker based on the player bet
     public void incrementNumOfChips(int numOfChipsWon){
         numOfChips += numOfChipsWon;
     }
+    // Decrements the number of chips for the banker based on the player bet
     public void decreaseNumOfChips(int newNumOfChipsWagered){
         numOfChips -= newNumOfChipsWagered;
     }

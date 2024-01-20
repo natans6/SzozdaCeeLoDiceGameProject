@@ -7,7 +7,6 @@ public class Die {
     private boolean repeat = true;
     public Die(){
     }
-
     public int getScore(){
         return score;
     }
@@ -23,6 +22,7 @@ public class Die {
     public int getWin(){
         return win;
     }
+    // Method used to create the 3 die sequence, and it loops until it fits one of the three combinations
     public void dieSequence(){
         int[] tempRollHolder = new int[3];
         while(repeat){
@@ -55,6 +55,7 @@ public class Die {
             }
         }
     }
+    // Rolls a die generating a number between 1 and 6
     private int rollDie(){
         return (int) (Math.random() * 6) + 1;
     }
