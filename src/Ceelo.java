@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Ceelo {
@@ -79,6 +80,7 @@ public class Ceelo {
                 wage1 = player1.getChipsWagered();
             } else {
                 pl1InGame = false;
+                wage1 = 0;
             }
             if (player2.checkIfInGame()){
                 System.out.println(player2.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player2.getNumberOfChips() + ConsoleUtility.RESET));
@@ -86,6 +88,7 @@ public class Ceelo {
                 wage2 = player2.getChipsWagered();
             } else {
                 pl2InGame = false;
+                wage2 = 0;
             }
             if (player3.checkIfInGame()){
                 System.out.println(player3.getName() + ", this is how many chips you currently have: " + (ConsoleUtility.YELLOW + player3.getNumberOfChips() + ConsoleUtility.RESET));
@@ -93,6 +96,7 @@ public class Ceelo {
                 wage3 = player3.getChipsWagered();
             } else {
                 pl3InGame = false;
+                wage3 = 0;
             }
             banker.rollDiesBanker();
             System.out.println("The banker rolled three dice on the table, eager for the outcome. The outcomes are " + (ConsoleUtility.GREEN + banker.getBankerDice1() + ConsoleUtility.RESET)  + ", " + (ConsoleUtility.GREEN + banker.getBankerDice2() + ConsoleUtility.RESET) + ", and " + (ConsoleUtility.GREEN + banker.getBankerDice3() + ConsoleUtility.RESET) + ".");
@@ -144,7 +148,6 @@ public class Ceelo {
             } catch (Exception e){
                 System.out.println("error");
             }
-            System.out.println("<----------------------------->");
             System.out.println("These are how many chips each one of y'all have...");
             printInfo();
             System.out.println("<----------------------------->");
@@ -221,15 +224,26 @@ public class Ceelo {
         int maxWager = Math.min(availableChips, MAX_WAGER_LIMIT);  // MAX_WAGER_LIMIT is the maximum allowed wager
 
         // Get player input for wager
-        System.out.print("Enter wager (up to " + maxWager + " chips): ");
-        int wager = scan.nextInt();
-        scan.nextLine();
+        int wager = 0;
+        boolean validInput = false;
 
-        // Validate the wager to be within the allowed limit
-        while (wager < 0 || wager > maxWager) {
-            System.out.print("Invalid wager. Enter a wager between 0 and " + maxWager + ": ");
-            wager = scan.nextInt();
-            scan.nextLine();
+        while (!validInput) {
+            try {
+                System.out.print("Enter wager (up to " + maxWager + " chips): ");
+                wager = scan.nextInt();
+                scan.nextLine();
+
+                // Validate the wager to be within the allowed limit
+                if (wager >= 0 && wager <= maxWager) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid wager. Enter a wager between 0 and " + maxWager + ".");
+                }
+            } catch (InputMismatchException e) {
+                // User entered a non-integer value, prompt for input again
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scan.nextLine(); // Clear the input buffer
+            }
         }
 
         return wager;

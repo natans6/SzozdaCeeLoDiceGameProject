@@ -41,6 +41,9 @@ public class Player {
     public void setChipsWagered(int newChips){
         chipsWagered = newChips;
     }
+    public void setNumberOfChips(int newChips) {
+        numberOfChips = newChips;
+    }
     // Rolls the 3 die for the player
     public void rollDiesPlayer(){
         die1 = new Die();
